@@ -76,12 +76,12 @@ loop do
       end
     end
 
-    # puts PARAMS
-    if PARAMS[:id] != nil
-      print_one_user(PARAMS[:id])
-    elsif PARAMS[:resource] == "users"
-      print_all_users
-    end
+    puts PARAMS
+    # if PARAMS[:id] != nil
+    #   print_one_user(PARAMS[:id])
+    # elsif PARAMS[:resource] == "users"
+    #   print_all_users
+    # end
 
     # YOUR CODE GOES ABOVE HERE  ^
   end
