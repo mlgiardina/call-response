@@ -76,15 +76,38 @@ loop do
       end
     end
 
-    # puts PARAMS
-    if PARAMS[:first_name]
+    def search_by_first_name
       name_starts_with = User.where("first_name LIKE ?", "#{PARAMS[:first_name]}%")
       name_starts_with.each { |user| puts "#{user.first_name} #{user.last_name}, #{user.age}" }
+    end
+
+
+    # puts PARAMS
+    if PARAMS[:limit] && PARAMS[:offset]
+      limited_and_offset = User.all.limit(PARAMS[:limit]).offset(PARAMS[:offset])
+      limited_and_offset.each do |user|
+        puts "(#{user.id}) #{user.first_name} #{user.last_name}, #{user.age}"
+      end
+    elsif PARAMS[:limit]
+      limit = User.all.limit(PARAMS[:limit])
+      limit.each do |user|
+        puts "(#{user.id}) #{user.first_name} #{user.last_name}, #{user.age}"
+      end
+    elsif PARAMS[:offset]
+      offset =  User.all.offset(PARAMS[:offset])
+      offset.each do |user|
+        puts "(#{user.id}) #{user.first_name} #{user.last_name}, #{user.age}"
+      end
+    elsif PARAMS[:first_name]
+      search_by_first_name
     elsif PARAMS[:id] != nil
       print_one_user(PARAMS[:id])
     elsif PARAMS[:resource] == "users"
       print_all_users
+    else
+
     end
+
 
     # YOUR CODE GOES ABOVE HERE  ^
   end
