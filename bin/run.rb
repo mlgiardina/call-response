@@ -60,10 +60,32 @@ loop do
 
     # YOUR CODE GOES BELOW HERE
     @user_list = User.all
-    if PARAMS[:resource] == "users"
-      @user_list.each do |user|
-        puts "#{user.first_name} #{user.last_name}"
+    def print_one_user(id)
+      # require 'pry'
+      # binding.pry
+      if User.exists?(id)
+        user = User.find(id)
+        puts "200 OK\n#{user.first_name} #{user.last_name}, #{user.age}"
+      else
+        puts "404 NOT FOUND\nThe ID you were looking for was not found."
       end
+    end
+
+    def print_all_users
+      @user_list.each do |user|
+      puts "#{user.first_name} #{user.last_name}, #{user.age}"
+      end
+    end
+
+    def check_for_user
+
+    end
+
+    # puts REQUEST
+    if PARAMS[:id] != nil
+      print_one_user(PARAMS[:id])
+    elsif PARAMS[:resource] == "users"
+      print_all_users
     end
 
     # YOUR CODE GOES ABOVE HERE  ^
