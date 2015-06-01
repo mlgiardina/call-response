@@ -60,9 +60,8 @@ loop do
 
     # YOUR CODE GOES BELOW HERE
     @user_list = User.all
+
     def print_one_user(id)
-      # require 'pry'
-      # binding.pry
       if User.exists?(id)
         user = User.find(id)
         puts "200 OK\n#{user.first_name} #{user.last_name}, #{user.age}"
@@ -77,11 +76,7 @@ loop do
       end
     end
 
-    def check_for_user
-
-    end
-
-    # puts REQUEST
+    # puts PARAMS
     if PARAMS[:id] != nil
       print_one_user(PARAMS[:id])
     elsif PARAMS[:resource] == "users"
