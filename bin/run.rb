@@ -76,12 +76,15 @@ loop do
       end
     end
 
-    puts PARAMS
-    # if PARAMS[:id] != nil
-    #   print_one_user(PARAMS[:id])
-    # elsif PARAMS[:resource] == "users"
-    #   print_all_users
-    # end
+    # puts PARAMS
+    if PARAMS[:first_name]
+      name_starts_with = User.where("first_name LIKE ?", "#{PARAMS[:first_name]}%")
+      name_starts_with.each { |user| puts "#{user.first_name} #{user.last_name}, #{user.age}" }
+    elsif PARAMS[:id] != nil
+      print_one_user(PARAMS[:id])
+    elsif PARAMS[:resource] == "users"
+      print_all_users
+    end
 
     # YOUR CODE GOES ABOVE HERE  ^
   end
