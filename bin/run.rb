@@ -64,13 +64,15 @@ loop do
     def print_one_user(id)
       if User.exists?(id)
         user = User.find(id)
-        puts "200 OK\n#{user.first_name} #{user.last_name}, #{user.age}"
+        ok_message
+        puts "#{user.first_name} #{user.last_name}, #{user.age}"
       else
         puts "404 NOT FOUND\nThe ID you were looking for was not found."
       end
     end
 
     def print_all_users
+      ok_message
       @user_list.each do |user|
       puts "#{user.first_name} #{user.last_name}, #{user.age}"
       end
@@ -78,23 +80,37 @@ loop do
 
     def search_by_first_name
       name_starts_with = User.where("first_name LIKE ?", "#{PARAMS[:first_name]}%")
+      ok_message
       name_starts_with.each { |user| puts "#{user.first_name} #{user.last_name}, #{user.age}" }
     end
 
+    def ok_message
+      puts "200 OK"
+    end
 
-    # puts PARAMS
+
+    # puts REQUEST
+    if REQUEST[:method] == "DELETE"
+      User.delete(PARAMS[:id])
+      ok_message
+      break
+    end
+
     if PARAMS[:limit] && PARAMS[:offset]
       limited_and_offset = User.all.limit(PARAMS[:limit]).offset(PARAMS[:offset])
+      ok_message
       limited_and_offset.each do |user|
         puts "(#{user.id}) #{user.first_name} #{user.last_name}, #{user.age}"
       end
     elsif PARAMS[:limit]
       limit = User.all.limit(PARAMS[:limit])
+      ok_message
       limit.each do |user|
         puts "(#{user.id}) #{user.first_name} #{user.last_name}, #{user.age}"
       end
     elsif PARAMS[:offset]
       offset =  User.all.offset(PARAMS[:offset])
+      ok_message
       offset.each do |user|
         puts "(#{user.id}) #{user.first_name} #{user.last_name}, #{user.age}"
       end
@@ -105,7 +121,7 @@ loop do
     elsif PARAMS[:resource] == "users"
       print_all_users
     else
-
+      puts "404 NOT FOUND"
     end
 
 
